@@ -13,7 +13,7 @@ const headers = {
   accept: "application/json, text/plain, */*",
   "accept-language": "en-US,en;q=0.9",
   authorization:
-    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIyZDg0ZTVjLTE0MjQtNDM0My1iYjdiLTk4YjZmOTc5ZWFmMyJ9.eyJ1c2VyIjp7Il9pZCI6IjYzYjNiNmIwM2IxYzFjMDAwODkwZTAyYiIsImZpcnN0TmFtZSI6IlByZW0iLCJsYXN0TmFtZSI6IkRoYW5hbmpheWFuIiwiZW1haWwiOiJwcmVtLnByYW1vZEBtZWx0d2F0ZXIuY29tIiwiYWN0aXZlQ29tcGFueUlkIjoiNjNiM2I2YWU3ODI5ODUwMDExMzM0N2M0IiwiaXNJbnRlcm5hbCI6dHJ1ZSwidGltZXpvbmUiOiJBc2lhL0tvbGthdGEiLCJsYW5ndWFnZSI6ImVuIiwiY3JlYXRlZCI6IjIwMjMtMDEtMDNUMDU6MDE6MzYuODM4WiIsIm1vZGlmaWVkIjoiMjAyMy0xMS0zMFQwNjowNjoyMi40MjJaIn0sImNvbXBhbnkiOnsiX2lkIjoiNTViZWY1ZGUzODc2N2E5NTM3NzQxMTE5IiwibmFtZSI6IlRoZSBDcnUgTWVkaWEgKyBDb21tdW5pY2F0aW9ucyAtIEZhaXJoYWlyIiwiY291bnRyeSI6ImF1IiwiY3JlYXRlZCI6IjIwMTUtMDgtMDNUMDU6MDI6MjIuOTI2WiIsIm1vZGlmaWVkIjoiMjAyMy0xMC0yNlQwNDoxNDoyNS44NDFaIn0sImV4cCI6MTcwMTkyOTE4NDAzNiwiaWF0IjoxNzAxMzI0Mzc0fQ.lMA7-lNHpBaUccHg4w3wdoB3uxxVm8VCy4ol9zy0tysYO7A06Hgi5nk_KKfS4gLqS_07PKs59qRWChsgA3ezC75cpiIwtwjrm2wWfg9bjuhsFORL5ooCe3s07dXpqE5zx_oNlTU-UtIswxtcld_q84EHCuZEFwRtebmquVh5gT5aSSatQ_9Ebb80Ee-LwHOKhSrsWfZsab8I6dS2oeXH03YkmNHfQiAARMaoK6KSapu3qkWIqzFXBPBh0ezhhTJ0CeEP4d5AD1v7KWgU6mbzVunbRqTAGrm3Gy_FUA82cMCD0HuMyXy2Fuca3_5izgBaWDq0tGR_oBOCN-1-sNHm9wo0qnGI-Rebcb0-NzsnKVRzBBVhOQkc-3tMn42UE5cibL8hZXh2TkmoetNObKAMZem9DwL72SFZ3Aub1Ocs9I-z3fVCKhShyOpKMx92u6NufeAsFfO735UiGe0t0eZYqaMG-qy_7Favd4LthOcogkHItyOEmTP71oiD_aXxj6OpaKCJ6fzMqQNDmHQRE8UIPgh_xbHYvyl12A5Yw03I0Q3WHnX5mz5TDhRKqB_Q95kV-UMIwtwceXy3Y4Y64HvnGB9nRgm5RVHbh_FtjsfQPyvHt0TykZptQD6QZoOa0FPRLa9meVVSsVbI8hjpaC4lgi_c6t99wn-j5Ebg-Bxcrek",
+    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIyZDg0ZTVjLTE0MjQtNDM0My1iYjdiLTk4YjZmOTc5ZWFmMyJ9.eyJ1c2VyIjp7Il9pZCI6IjYzYjNiNmIwM2IxYzFjMDAwODkwZTAyYiIsImZpcnN0TmFtZSI6IlByZW0iLCJsYXN0TmFtZSI6IkRoYW5hbmpheWFuIiwiZW1haWwiOiJwcmVtLnByYW1vZEBtZWx0d2F0ZXIuY29tIiwiYWN0aXZlQ29tcGFueUlkIjoiNjNiM2I2YWU3ODI5ODUwMDExMzM0N2M0IiwiaXNJbnRlcm5hbCI6dHJ1ZSwidGltZXpvbmUiOiJBc2lhL0tvbGthdGEiLCJsYW5ndWFnZSI6ImVuIiwiY3JlYXRlZCI6IjIwMjMtMDEtMDNUMDU6MDE6MzYuODM4WiIsIm1vZGlmaWVkIjoiMjAyMy0xMi0xNlQxNDoyOTo0Ni41NjZaIn0sImNvbXBhbnkiOnsiX2lkIjoiNjNiM2I2YWU3ODI5ODUwMDExMzM0N2M0IiwibmFtZSI6IlByZW0gRGhhbmFuamF5YW4iLCJjb3VudHJ5IjoiaW4iLCJjcmVhdGVkIjoiMjAyMy0wMS0wM1QwNTowMTozNC4zNTdaIiwibW9kaWZpZWQiOiIyMDIzLTEyLTEzVDA5OjM0OjQ5Ljg1OFoifSwiZXhwIjoxNzAzMzQxNzg2NzIxLCJpYXQiOjE3MDI3MzY5NzZ9.IIwWWFqzJc2PclQrZ4Z59N_g3Q7KK1dDttwOfVX1ba07Ucn2qJFUfbIUcce0DdgEk7E-HibOXdHgfX2w_gN74KbdVUaFkhrmLTcjoE1WALTIwvPnn2SZXpiBGyyq3AxYV2AbTg75NL6jaJJDL4u-bTga5KG4XwF_oiADe0YYOl3jtbqLKhfM-sP7Qr-HxAN87XnnTCBe4H5kkZrLa832h7h5t4uEi7wkQhve8ArKVUEE4XLwJljp6lgARBU8UuisveiJgM5hZygfeBNNPy8EQtp0yNoudP3FHmWKDN4r4JhsAlMtcmSNrhutoKEPtXhveeCn8SXB8PSqin1ElGwuauCLIEjp8UZyf1iOXrQiVdo1RXDPVjMxv4sj1a_skkIvNitDaSIvMs63cDHQbUd0rqIVOSC5rHV1bdOSnaNfOP9etb-Ah11vqOMMiMAMyc_BuHhgvrqTLDKLXG6G-sJ7okbNgADywbE3W3O06pBUavuZScHN3J0P8PZfJ8rcKPz4AB8kXXIhwfQWGRJEHxfUuGBpVQ8en-0GBluZptcGWMR_2rqn1ZRxJYHS7FHyMA9i1IiH8f1V3c8tngbhTbBe2_fW4XPeiJtV3SwXkiyOlYmGMhptm1gmBmDiOIQGnPa09VywetuCe-ec0rtahsrrYP7N8WTDPFqFpaQ2ibBWMmE",
   origin: "https://app.meltwater.com",
   referer: "https://app.meltwater.com/",
   "sec-ch-ua":
@@ -104,6 +104,9 @@ app.post("/perform-login-and-switch", async (req, res) => {
       
       alertsHeaders.authorization = authTokenAfterSwitching;
       nlHeaders.authorization = authTokenAfterSwitching;
+      reportHeaders.authorization = authTokenAfterSwitching;
+      userDataHeaders.authorization = authTokenAfterSwitching;
+      userAnalyticsHeaders.authorization = authTokenAfterSwitching;
 
       return res
         .status(200)
@@ -385,3 +388,118 @@ app.get("/api/distribution-analytics/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch distribution analytics" });
   }
 });
+
+
+
+
+const reportHeaders = {
+  Accept: "application/json, text/plain, */*",
+  "Accept-Language": "en-US,en;q=0.9",
+  authorization: "",
+  Connection: "keep-alive",
+  Origin: "https://app.meltwater.com",
+  Referer: "https://app.meltwater.com/settings/report",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "cross-site",
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Sec-Ch-Ua":
+    '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+  "Sec-Ch-Ua-Mobile": "?0",
+  "Sec-Ch-Ua-Platform": '"macOS"',
+  "Accept-Encoding": "gzip",
+};
+
+// Headers and Endpoint to fetch Digest Reports
+
+app.get("/api/reports", async (req, res) => {
+  try {
+    const reportUrl = `https://dashboard-services.daily-digest.meltwater.io/dashboard_services/v2/reportDefinitions/`;
+    const response = await axios.get(reportUrl, {
+      headers: reportHeaders,
+    });
+    const reportData = response.data;
+    // console.log(reportData);
+    res.status(200).json(reportData);
+  } catch (error) {
+    console.error(`Error fetching Digest Report info: ${error.message}`);
+    res.status(500).json({ error: "Failed to fetch Digest Reports" });
+  }
+});
+
+// Headers and Endpoint to get User Analytics
+
+const userDataHeaders = {
+  Accept: "*/*",
+  "Accept-Language": "en-US,en;q=0.9",
+  authorization: "",
+  Connection: "keep-alive",
+  Origin: "https://app.meltwater.com",
+  Referer: "https://app.meltwater.com/",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "cross-site",
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Sec-Ch-Ua":
+    '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+  "Sec-Ch-Ua-Mobile": "?0",
+  "Sec-Ch-Ua-Platform": '"macOS"',
+  "Accept-Encoding": "gzip",
+};
+
+app.get("/api/userData", async (req, res) => {
+  try {
+    const userDataUrl = `https://v2.walkme.meltwater.io/identity`;
+    const response = await axios.get(userDataUrl, {
+      headers: userDataHeaders,
+    });
+    const userData = response.data;
+    // console.log(reportData);
+    res.status(200).json(userData);
+  } catch (error) {
+    console.error(`Error fetching User Info: ${error.message}`);
+    res.status(500).json({ error: "Failed to fetch User Info" });
+  }
+});
+
+// Headers and Endpoint for User Analytics
+
+const userAnalyticsHeaders = {
+  Authority: "app.meltwater.com",
+  Accept: "*/*",
+  "Accept-Language": "en-US,en;q=0.9",
+  authorization:
+    "",
+  "Content-Type": "text/plain;charset=UTF-8",
+  
+  Origin: "https://app.meltwater.com",
+  Referer: "https://app.meltwater.com/m/home",
+  "Sec-Ch-Ua":
+    '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+  "Sec-Ch-Ua-Mobile": "?0",
+  "Sec-Ch-Ua-Platform": '"macOS"',
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-origin",
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Accept-Encoding": "gzip",
+};
+
+app.get("/api/userAnalytics", async (req, res) => {
+  try {
+    const userAnalyticsUrl = `https://app.meltwater.com/manifest`;
+    const response = await axios.get(userAnalyticsUrl, {
+      headers: userAnalyticsHeaders,
+    });
+    const userAnalytics = response.data;
+
+    res.status(200).json(userAnalytics);
+  } catch (error) {
+    console.error(`Error fetching User Data: ${error.message}`);
+    res.status(500).json({ error: "Failed to fetch user data" });
+  }
+});
+
