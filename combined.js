@@ -101,12 +101,13 @@ app.post("/perform-login-and-switch", async (req, res) => {
 
     // Set the obtained authTokenAfterSwitching as the authorization header
     if (authTokenAfterSwitching) {
-      
       alertsHeaders.authorization = authTokenAfterSwitching;
       nlHeaders.authorization = authTokenAfterSwitching;
       reportHeaders.authorization = authTokenAfterSwitching;
       userDataHeaders.authorization = authTokenAfterSwitching;
       userAnalyticsHeaders.authorization = authTokenAfterSwitching;
+      searchListHeaders.Authorization = `Bearer ${authTokenAfterSwitching}`;
+      searchDataHeaders.Authorization = `Bearer ${authTokenAfterSwitching}`;
 
       return res
         .status(200)
@@ -305,13 +306,6 @@ app.get("/api/newsletters", async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
 // Endpoint to get newsletter distributions based on ID
 app.get("/api/newsletters/:id/distributions", async (req, res) => {
   const { id } = req.params;
@@ -333,10 +327,6 @@ app.get("/api/newsletters/:id/distributions", async (req, res) => {
   }
 });
 
-
-
-
-
 // app.get("/api/distribution-analytics/:id", async (req, res) => {
 //   const { id } = req.params;
 
@@ -357,7 +347,6 @@ app.get("/api/newsletters/:id/distributions", async (req, res) => {
 //   }
 // });
 
-
 app.get("/api/distribution-analytics/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -366,7 +355,7 @@ app.get("/api/distribution-analytics/:id", async (req, res) => {
 
     // Make a request to fetch distribution analytics with the provided ID
     const response = await axios.get(analyticsUrl, {
-      headers: nlHeaders, 
+      headers: nlHeaders,
     });
 
     // Extract the total value from the response
@@ -388,9 +377,6 @@ app.get("/api/distribution-analytics/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch distribution analytics" });
   }
 });
-
-
-
 
 const reportHeaders = {
   Accept: "application/json, text/plain, */*",
@@ -470,10 +456,9 @@ const userAnalyticsHeaders = {
   Authority: "app.meltwater.com",
   Accept: "*/*",
   "Accept-Language": "en-US,en;q=0.9",
-  authorization:
-    "",
+  authorization: "",
   "Content-Type": "text/plain;charset=UTF-8",
-  
+
   Origin: "https://app.meltwater.com",
   Referer: "https://app.meltwater.com/m/home",
   "Sec-Ch-Ua":
@@ -500,6 +485,131 @@ app.get("/api/userAnalytics", async (req, res) => {
   } catch (error) {
     console.error(`Error fetching User Data: ${error.message}`);
     res.status(500).json({ error: "Failed to fetch user data" });
+  }
+});
+
+//Headers and Endpoint for User Search list
+
+const searchListHeaders = {
+  "Accept-Language": "en-US,en;q=0.9",
+  Connection: "keep-alive",
+  Origin: "https://app.meltwater.com",
+  Referer: "https://app.meltwater.com/",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "cross-site",
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  Accept: "*/*",
+  "Apollographql-Client-Name": "discovery-next",
+  "Apollographql-Client-Version": "07911e5c2e25053115fe3f36ca77045e06d3425e",
+  Authorization: "",
+  "Content-Type": "application/json",
+  "Sec-Ch-Ua":
+    '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+  "Sec-Ch-Ua-Mobile": "?0",
+  "Sec-Ch-Ua-Platform": '"macOS"',
+  "Accept-Encoding": "gzip",
+};
+
+app.get("/api/searchList", async (req, res) => {
+  try {
+    const searchListUrl = `https://discovery-next-mw-apollo-production.meltwater.io/graphql`;
+
+    const jsonData = {
+      operationName: "Searches",
+      query:
+        "query Searches {\n  searches {\n    id\n    name\n    __typename\n  }\n}",
+      variables: {},
+    };
+
+    const response = await axios.post(searchListUrl, jsonData, {
+      headers: searchListHeaders,
+    });
+    const searchList = response.data;
+
+    res.status(200).json(searchList);
+  } catch (error) {
+    console.error(`Error fetching User Search List: ${error.message}`);
+    res.status(500).json({ error: "Failed to fetch user data" });
+  }
+});
+
+//Headers and Endpoint for User Search Data
+
+const searchDataHeaders = {
+  "Accept-Language": "en-US,en;q=0.9",
+  Connection: "keep-alive",
+  Origin: "https://app.meltwater.com",
+  Referer: "https://app.meltwater.com/",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "cross-site",
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  Accept: "*/*",
+  "Apollographql-Client-Name": "discovery-next",
+  "Apollographql-Client-Version": "07911e5c2e25053115fe3f36ca77045e06d3425e",
+  Authorization: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIyZDg0ZTVjLTE0MjQtNDM0My1iYjdiLTk4YjZmOTc5ZWFmMyJ9.eyJjb21wYW55Ijp7Il9pZCI6IjYzYjNiNmFlNzgyOTg1MDAxMTMzNDdjNCIsIm5hbWUiOiJQcmVtIERoYW5hbmpheWFuIiwiY291bnRyeSI6ImluIiwiY3JlYXRlZCI6IjIwMjMtMDEtMDNUMDU6MDE6MzQuMzU3WiIsIm1vZGlmaWVkIjoiMjAyMy0xMi0xM1QwOTozNDo0OS44NThaIn0sInVzZXIiOnsiX2lkIjoiNjNiM2I2YjAzYjFjMWMwMDA4OTBlMDJiIiwiZmlyc3ROYW1lIjoiUHJlbSIsImxhc3ROYW1lIjoiRGhhbmFuamF5YW4iLCJlbWFpbCI6InByZW0ucHJhbW9kQG1lbHR3YXRlci5jb20iLCJhY3RpdmVDb21wYW55SWQiOiI2M2IzYjZhZTc4Mjk4NTAwMTEzMzQ3YzQiLCJpc0ludGVybmFsIjp0cnVlLCJ0aW1lem9uZSI6IkFzaWEvS29sa2F0YSIsImxhbmd1YWdlIjoiZW4iLCJjcmVhdGVkIjoiMjAyMy0wMS0wM1QwNTowMTozNi44MzhaIiwibW9kaWZpZWQiOiIyMDIzLTEyLTIxVDA1OjEwOjU5LjM3OVoifSwiZXhwIjoxNzAzNzQwMjU5MzYwLCJpYXQiOjE3MDMxMzU2NjN9.UUsp8L2i5U7tdNVoMWvNhPnp2B7FbXvVlwQ3f8E7I5DAZgH0iOPw3j-byFX3dPTXE1Wn9e29XnmF0VNgnfvJe5cYIT_r0nktUMRxwH0uAjtjkpLLbcDL86yniqrSfsaKIBDwUz-cykfTAqmABUBmhnblSQVFcDu9cWagobYOFo_myGAlhz9MZ0fTJkWGZtg68CCcjLbUX7r3gY2wagJT5JH8bFXj7Gi1jHVAvJnzm3qqu9g1UXpjlAYYDnARAVS-ncQAjuIfkiW-_sWME0Goa1_IfbcjhVV0LX4_7JQyaMjZLVSa-N597NzIU2WldlUJ9cMQalbF4-c70J3j-z4YaWBrbEAaQ2ZQJc793EvXakICt5_rd09Dih39puuso1fXe3NhaIiML-gzjen5sDbCEYNrQYxyuiSywqMDW3heT6vDwHnjY85avtUT-nwda3VkHSFhG0I7mtCB63-PjDlvDwYiAV9r1AWSsP9MzNM5XWG-hTbJ3aYxlEx1naasGoLvtrjKsOQqOYnaF3Inq7-WE86jpxSxSlH7K2Qj4f9cl7ebblXgEVIF7LFjzg_fT-XiviNegfeLlzCm9MAWYx-bR23NqhHmka8TlYwKAfLIXal0pycImtPUDLusLFcE_4vw3D-wVbee7YGPXDG59reutByX1AZtC9d8IeAphvuz1Oo",
+  "Content-Type": "application/json",
+  "Sec-Ch-Ua":
+    '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+  "Sec-Ch-Ua-Mobile": "?0",
+  "Sec-Ch-Ua-Platform": '"macOS"',
+  "Accept-Encoding": "gzip",
+};
+
+// Endpoint to receive the appended search ID
+app.post("/api/sendSearchID/:searchID", async (req, res) => {
+  try {
+    const { searchID } = req.params;
+
+    // Modify the JSON payload by inserting the search ID into 'variables'
+    const modifiedPayload = {
+      operationName: "GetSearch",
+      query:
+        "query GetSearch($id: String!) {\n  search(id: $id) {\n    id\n    name\n    type\n    searchQuery {\n      searchQueryType\n      allKeywords\n      allSearches {\n        id\n        name\n        type\n        __typename\n      }\n      anyKeywords\n      anySearches {\n        id\n        name\n        type\n        __typename\n      }\n      booleanQuery\n      caseSensitive\n      notKeywords\n      notSearches {\n        id\n        name\n        type\n        __typename\n      }\n      filter\n      __typename\n    }\n    __typename\n  }\n}",
+      variables: {
+        id: searchID,
+      },
+    };
+
+    // Send the modified payload to the external GraphQL API
+    const response = await axios.post(
+      "https://discovery-next-mw-apollo-production.meltwater.io/graphql",
+      modifiedPayload,
+      {
+        headers: searchDataHeaders,
+      }
+    );
+// Forward the received JSON response to the /api/searchData endpoint
+    const searchDataResponse = await axios.post('http://localhost:3600/api/searchData', response.data);
+
+
+
+    // Send the received JSON response back to the frontend
+    res.json(response.data);
+      console.log(searchDataResponse);
+  } catch (error) {
+    console.error("Error processing search ID:", error);
+    res.status(500).send("Server Error");
+  }
+});
+
+// Endpoint to process relayed data
+app.post('/api/searchData', async (req, res) => {
+  try {
+    const relayedData = req.body;
+
+    // Process the relayed data if needed
+    // For example, log the received data for now
+    console.log('Received relayed data:', relayedData);
+
+    // Send the relayed data back to the frontend (if needed)
+    res.status(200).json({ message: 'Data processed successfully', data: relayedData });
+  } catch (error) {
+    console.error('Error processing searchData:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
